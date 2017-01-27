@@ -2,15 +2,19 @@
 # encoding: utf-8
 
 import cPickle as pk
+import ConfigParser
 
 
 class LastbUtil(object):
 
-    save_path = './lastb.txt'
-    hosts_deny_path = '/etc/hosts.deny'
-    max_allowed_num = 3
-
     def __init__(self):
+        self.__init_from_config__()
+
+    def __init_from_config__(self):
+        config = ConfigParser.ConfigParser()
+        self.save_path = config.get('modes', 'save_path')
+        self.hosts_deny_path = config.get('modes', 'hosts_deny_path')
+        self.max_allowed_num = config.getint('modes', 'max_allowed_num')
         self.log_dict = {}
 
     def save(self):
