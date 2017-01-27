@@ -4,6 +4,7 @@
 
 import os
 import time
+import ConfigParser
 
 from models.lastb import Lastb
 from utils.common_utils import DateUtil
@@ -13,11 +14,25 @@ from utils.lastb_util import LastbUtil
 class LastbChecker(object):
 
     def __init__(self):
-        self.lastb_cmd = 'lastb'
-        self.lastb_num = 10
+        config_path = '../resources/lastb.conf'
+        self.__init_from_config__(config_path)
+        # self.lastb_cmd = 'lastb'
+        # self.lastb_num = 10
+        # self.lastb_opt = ' -' + str(10)
+        # self.check_interval = 30
+        # self.lastb_log = os.popen(self.lastb_cmd).readlines()
+        # self.lastb_len = len(self.lastb_log)
+        # self.history_len = self.lastb_len
+        # self.lastb_util = LastbUtil()
+
+    def __init_from_config__(self, path):
+        config = ConfigParser.ConfigParser()
+        config.read(path)
+
+        self.lastb_cmd = config.get('lastb', 'lastb_cmd')
+        self.lastb_num = config.getint('lastb', 'lastb_num')
         self.lastb_opt = ' -' + str(10)
-        self.check_interval = 30
-        self.lastb_len = 0
+        self.check_interval = config.getint('lastb', 'check_interval')
         self.lastb_log = os.popen(self.lastb_cmd).readlines()
         self.lastb_len = len(self.lastb_log)
         self.history_len = self.lastb_len
