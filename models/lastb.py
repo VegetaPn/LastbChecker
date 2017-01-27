@@ -14,12 +14,12 @@ class Lastb(object):
         self.time_to = None
 
     def parse_from_str(self, str):
-        '''
+        """
         111111   ssh:notty    159.122.133.233  Fri Dec  2 17:16 - 17:16  (00:00)
-        '''
+        """
         data_arr = str.split()
         if len(data_arr) != 10:
-            pass
+            return
         self.user = data_arr[0]
         self.tty = data_arr[1]
         self.ip = data_arr[2]
