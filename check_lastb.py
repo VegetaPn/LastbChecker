@@ -15,7 +15,7 @@ class LastbChecker(object):
 
     def __init__(self):
         config_path = '../resources/lastb.conf'
-        self.__init_from_config__(config_path)
+        self._init_from_config(config_path)
         # self.lastb_cmd = 'lastb'
         # self.lastb_num = 10
         # self.lastb_opt = ' -' + str(10)
@@ -25,7 +25,7 @@ class LastbChecker(object):
         # self.history_len = self.lastb_len
         # self.lastb_util = LastbUtil()
 
-    def __init_from_config__(self, path):
+    def _init_from_config(self, path):
         config = ConfigParser.ConfigParser()
         config.read(path)
 
@@ -37,6 +37,11 @@ class LastbChecker(object):
         self.lastb_len = len(self.lastb_log)
         self.history_len = self.lastb_len
         self.lastb_util = LastbUtil()
+
+    def _load_blacklist(self, path):
+        config = ConfigParser.ConfigParser()
+        config.read(path)
+        load_path = config.get('modes', 'hosts_deny_path')
 
     def do_easy_check(self):
         history_black_set = set()

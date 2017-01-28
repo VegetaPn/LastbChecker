@@ -8,9 +8,9 @@ import ConfigParser
 class LastbUtil(object):
 
     def __init__(self):
-        self.__init_from_config__()
+        self._init_from_config()
 
-    def __init_from_config__(self):
+    def _init_from_config(self):
         config = ConfigParser.ConfigParser()
         self.save_path = config.get('modes', 'save_path')
         self.hosts_deny_path = config.get('modes', 'hosts_deny_path')
