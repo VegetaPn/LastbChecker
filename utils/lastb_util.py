@@ -12,6 +12,7 @@ class LastbUtil(object):
 
     def _init_from_config(self):
         config = ConfigParser.ConfigParser()
+        config.read('resources/lastb.conf')
         self.save_path = config.get('modes', 'save_path')
         self.hosts_deny_path = config.get('modes', 'hosts_deny_path')
         self.max_allowed_num = config.getint('modes', 'max_allowed_num')

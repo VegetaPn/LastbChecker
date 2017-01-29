@@ -13,9 +13,10 @@ from utils.lastb_util import LastbUtil
 
 class LastbChecker(object):
 
+    config_path = 'resources/lastb.conf'
+
     def __init__(self):
-        config_path = '../resources/lastb.conf'
-        self._init_from_config(config_path)
+        self._init_from_config(self.config_path)
         # self.lastb_cmd = 'lastb'
         # self.lastb_num = 10
         # self.lastb_opt = ' -' + str(10)
@@ -38,15 +39,33 @@ class LastbChecker(object):
         self.history_len = self.lastb_len
         self.lastb_util = LastbUtil()
 
-    def _load_blacklist(self, path):
+    '''
+    ALL:123.123.123:deny
+    '''
+    def _load_blacklist(self, result):
         config = ConfigParser.ConfigParser()
-        config.read(path)
+        config.read(self.config_path)
         load_path = config.get('modes', 'hosts_deny_path')
+        f = open(load_path, 'r')
+        for line in f.readlines():
+            if line.strip().startswith('#') or line.strip() == '':
+                continue
+
+            ip = ''
+            try:
+                ip = line.strip().split(':')[1]
+            except Exception as e:
+                print(e)
+
+            if ip:
+                result.add(ip)
 
     def do_easy_check(self):
         history_black_set = set()
         black_set = set()
         counter = 0
+        self._load_blacklist(history_black_set)
+
         while True:
             time.sleep(self.check_interval)
             counter += 1
